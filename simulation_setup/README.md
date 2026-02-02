@@ -75,9 +75,11 @@ rosrun iiwa_probe_utils normals_markers_from_cloud.py \
   _scale:=0.03 \
   _max_markers:=500
 ```
-<img width="1849" height="1028" alt="immagine" src="https://github.com/user-attachments/assets/db837fcd-7828-4cbb-b427-32354cdedf74" />
+<img width="1092" height="626" alt="immagine" src="https://github.com/user-attachments/assets/9f4f0aa9-c033-4ae3-9a86-ea2d8b910c47" />
+
 
 -----------------------------------------------------------------------------------------------------
+After running your node for path execution, if you want to record everything ad get the spline for the hybrid simulation:
 ## Record csv file [x,y,z,qx,qy,qz,qw]
 ```
 source ~/iiwa_stack_ws/devel/setup.bash
