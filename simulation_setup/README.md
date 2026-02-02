@@ -35,7 +35,6 @@ roslaunch iiwa_probe_utils demo_with_tool_env_iiwa_stack.launch \
 ```
 The length L_Tip is set to 0.24 to simulate the probe exerting slight pressure on the patient’s skin
 
-<img width="453" height="360" alt="immagine" src="https://github.com/user-attachments/assets/1d08c3eb-37e9-4888-aecd-88282d81d0d4" />
 
 -----------------------------------------------------------------------------------------------------
 ## Attach the probe 
@@ -57,7 +56,7 @@ Change pdc_path with yours
 This version is the one with the correct topic name:
 ```
 rosrun iiwa_probe_utils add_patient_cloud_on_table.py \
-  _pcd_path:=/home/chiararipiemo/iiwa_stack_ws/src/iiwa_probe_utils/cloudpoint/Segmentation_decimated_better_points.pcd \
+  _pcd_path:=/home/chiararipiemo/iiwa_stack_ws/src/iiwa_probe_utils/cloudpoint/skin_cloudpoint.pcd \
   _frame_id:=world \
   _x:=0.65 _y:=-0.20 \
   _roll_deg:=90 _pitch_deg:=0 \
