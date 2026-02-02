@@ -90,16 +90,15 @@ rosrun iiwa_probe_utils csv_logger.py \
   _tip_offset_m:=0.0
 ```
 ### Start
-Quando il probe_tip "tocca" p0 lanciare:
+
 ```
 rosservice call /csv_logger/start
 ```
 ### Stop 
-Quando lo sweep lineare è stato eseguito, lanciare:
 ```
 rosservice call /csv_logger/stop
 ```
-The exit file will be a .csv file inside /iiwa_csv
+The exit file will be a .csv file inside /iiwa_csv in this case.
 ## Execute raster scan
 ### Only touch the p0 point
 - robot che va da home > pre.approach > si posiziona normale al punto p0: il contatto avviene tra frame probe_tip e punto p0.Il frame probe_tip è circa coincidente con la punta finale del probe.
