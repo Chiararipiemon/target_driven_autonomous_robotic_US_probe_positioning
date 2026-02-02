@@ -1,43 +1,75 @@
 <?xml version="1.0"?>
 <launch>
-  <!-- args -->
-  <arg name="model" default="iiwa14"/>
-  <arg name="robot_name" default="iiwa"/>
-  <arg name="rviz" default="true"/>
-  <arg name="L_tip" default="0.24"/>
-  <!-- env geometry params -->
-  <arg name="pedestal_size" default="0.60"/>
-  <arg name="table_length" default="1.80"/>
-  <arg name="table_width"  default="0.60"/>
-  <arg name="table_height" default="0.75"/>
-  <arg name="table_x"      default="0.65"/>
-  <arg name="table_y"      default="0.00"/>
-  <arg name="table_yaw"    default="0.00"/>
-  <arg name="world_frame"  default="world"/>
+  <!--
+    Purpose
+    This launch file starts a MoveIt demo for a KUKA iiwa (via iiwa_moveit) and then:
+    1) publishes a few static TF frames (world -> base, ee -> tool0, tool0 -> probe_tip)
+    2) spawns a simple static planning scene (pedestal + table) through MoveIt services
 
-  <!-- iiwa_stack MoveIt demo -->
+    Typical usage
+    - Use it to visualize and test motion planning in RViz with a known scene setup.
+    - The probe_tip frame is useful if you plan in terms of a tool tip offset (e.g., probing, scanning).
+
+    What you may want to modify
+    - model / robot_name: if your MoveIt config uses a different model or namespace
+    - L_tip: if your tool tip is not exactly 24 cm along tool0 Z
+    - table_* and pedestal_*: to match your lab / simulation geometry
+    - world_frame: if your setup uses "map" or another global frame instead of "world"
+  -->
+
+  <!-- Main arguments: robot configuration and visualization -->
+  <arg name="model" default="iiwa14"/>         <!-- iiwa model used by iiwa_moveit (e.g., iiwa7, iiwa14, etc.) -->
+  <arg name="robot_name" default="iiwa"/>      <!-- namespace used by iiwa_moveit and related MoveIt services -->
+  <arg name="rviz" default="true"/>            <!-- set to false for headless runs -->
+  <arg name="L_tip" default="0.24"/>           <!-- tool tip offset (meters) along tool0 Z axis -->
+
+  <!-- Environment geometry parameters (used by the scene spawner) -->
+  <arg name="pedestal_size" default="0.60"/>   <!-- pedestal footprint size (meters), typically a square -->
+  <arg name="table_length" default="1.80"/>    <!-- table size (meters) -->
+  <arg name="table_width"  default="0.60"/>
+  <arg name="table_height" default="0.75"/>    <!-- table thickness/height depends on how spawn_static_scene_iiwa.py interprets it -->
+  <arg name="table_x"      default="0.65"/>    <!-- table pose in world_frame -->
+  <arg name="table_y"      default="0.00"/>
+  <arg name="table_yaw"    default="0.00"/>    <!-- rotation around Z (radians) -->
+  <arg name="world_frame"  default="world"/>   <!-- global reference frame -->
+
+  <!-- Start the standard iiwa MoveIt demo (robot_state_publisher, move_group, RViz, etc.) -->
   <include file="$(find iiwa_moveit)/launch/demo.launch">
     <arg name="rviz" value="$(arg rviz)"/>
     <arg name="robot_name" value="$(arg robot_name)"/>
     <arg name="model" value="$(arg model)"/>
   </include>
 
-  <!-- static TF anchors -->
+  <!-- Static TF anchors.
+       Adjust these only if your TF tree differs, or if you want a non-zero placement. -->
+
+  <!-- World frame aligned with the robot base (iiwa_link_0). If you already publish world->base elsewhere,
+       remove this to avoid TF conflicts. -->
   <node pkg="tf2_ros" type="static_transform_publisher" name="world_to_base"
         args="0 0 0 0 0 0 1 $(arg world_frame) iiwa_link_0"/>
+
+  <!-- Convenience frame: end-effector to tool0. Here it's identity (same pose), but keeping tool0 is handy
+       if you later swap tools or want a stable tooling reference. -->
   <node pkg="tf2_ros" type="static_transform_publisher" name="ee_to_tool0"
         args="0 0 0 0 0 0 1 iiwa_link_ee tool0"/>
+
+  <!-- Probe tip frame: tool0 -> probe_tip along +Z by L_tip meters.
+       If your tool extends along a different axis, change the translation accordingly. -->
   <node pkg="tf2_ros" type="static_transform_publisher" name="tool0_to_probe"
         args="0 0 $(arg L_tip) 0 0 0 1 tool0 probe_tip"/>
 
-  <!-- scene spawner (uses MoveIt services under /$(arg robot_name)) -->
+  <!-- Spawn a static planning scene using MoveIt services.
+       The script is expected to add collision objects (pedestal, table) under the MoveIt namespace. -->
   <node pkg="iiwa_probe_utils" type="spawn_static_scene_iiwa.py" name="spawn_static_scene" output="screen">
+    <!-- MoveIt namespace where services/topics are exposed (usually /<robot_name>) -->
     <param name="moveit_ns"   value="$(arg robot_name)"/>
     <param name="world_frame" value="$(arg world_frame)"/>
 
+    <!-- Pedestal configuration -->
     <param name="pedestal_size" value="$(arg pedestal_size)"/>
-    <param name="pedestal_z_top" value="0.0"/>
+    <param name="pedestal_z_top" value="0.0"/> <!-- height reference for the pedestal top; tweak if your robot base is elevated -->
 
+    <!-- Table configuration -->
     <param name="table_length" value="$(arg table_length)"/>
     <param name="table_width"  value="$(arg table_width)"/>
     <param name="table_height" value="$(arg table_height)"/>
