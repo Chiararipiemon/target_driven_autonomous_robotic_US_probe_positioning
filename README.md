@@ -12,8 +12,12 @@ motions for safe execution under ROS Noetic coordination. During contact and sca
 to avoid excessive penetration. If the resulting pose quality is not satisfactory, the procedure iterates until a suitable pose is found.
 
 ## Repo overview
-Inside **/simulation_setup** based on https://github.com/IFL-CAMP/iiwa_stack there are all the scripts and the README.md to run the simulation: all the inputs you need and all the outputs you should obtain by following the intructions.
+Inside **/simulation_setup** based on https://github.com/IFL-CAMP/iiwa_stack there are all the scripts and the README.md to run the simulation: all the inputs you need and all the outputs you should obtain by following the intructions
+
 Inside **/segmentation** you find all the custom scripts and priors to run the network for US automatic spine segmentation based on https://github.com/luohwu/UltraBones100k
+
 Inside **/confidence_map** you find all the custom scripts for running the confidence map computation based on https://github.com/Project-MONAI/MONAI
+
 Inside **/probe_pose_planner** there are all the custom scripts for running the probe US pose optimization problem 
+
 Inside **/validation there** there is a README.md where you can find all the instructions to run and execute the entire pipeline and test everything
