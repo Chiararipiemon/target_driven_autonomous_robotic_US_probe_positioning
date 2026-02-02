@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<launch>
+  <!-- args personalizzabili -->
+  <arg name="pcd_path" default="$(find iiwa_probe_utils)/cloudpoint/Segmentation_decimated_better_points.pcd"/>
+  <arg name="world_frame" default="world"/>
+  <arg name="x" default="0.65"/>
+  <arg name="y" default="-0.20"/>
+  <arg name="roll_deg"  default="90.0"/>
+  <arg name="pitch_deg" default="0.0"/>
+  <arg name="align_mesh_yaw_with_table" default="true"/>
+  <arg name="z_lift" default="0.22"/>
+  <arg name="table_yaw" default="1.5708"/>
+
+  <!-- se il piano tavolo è a z=0 tramite pedana -->
+  <arg name="pedestal_size" default="0.60"/>
+  <arg name="pedestal_z_top" default="0.0"/>
+  <arg name="table_height" default="0.75"/>
+  <arg name="table_align_with_pedestal_top" default="true"/>
+
+  <!-- Nodo che pubblica /cloud_with_normals già nel frame world -->
+  <node pkg="iiwa_probe_utils"
+        type="cloudpoint/add_patient_cloud_on_table.py"
+        name="spawn_patient_cloud_alone"
+        output="screen">
+    <param name="pcd_path" value="$(arg pcd_path)"/>
+    <param name="frame_id" value="$(arg world_frame)"/>
+    <param name="x" value="$(arg x)"/>
+    <param name="y" value="$(arg y)"/>
+    <param name="roll_deg"  value="$(arg roll_deg)"/>
+    <param name="pitch_deg" value="$(arg pitch_deg)"/>
+    <param name="align_mesh_yaw_with_table" value="$(arg align_mesh_yaw_with_table)"/>
+    <param name="z_lift" value="$(arg z_lift)"/>
+
+    <!-- ambiente/tavolo -->
+    <param name="table_yaw" value="$(arg table_yaw)"/>
+    <param name="pedestal_size" value="$(arg pedestal_size)"/>
+    <param name="pedestal_z_top" value="$(arg pedestal_z_top)"/>
+    <param name="table_height" value="$(arg table_height)"/>
+    <param name="table_align_with_pedestal_top" value="$(arg table_align_with_pedestal_top)"/>
+
+    <!-- topic -->
+    <param name="topic_name" value="/cloud_with_normals"/>
+  </node>
+</launch>
