@@ -27,7 +27,7 @@ import csv
 import os
 import numpy as np
 
-# ========= CONFIG =========
+# CONFIG 
 
 # Input CSV (poses in robot/world source frame).
 # Each row must contain ... x, y, z, qx, qy, qz, qw
@@ -50,7 +50,6 @@ T_IMFUSION_FROM_ROBOT = np.array([
     [0.0,  0.0,  0.0,    1.0]
 ], dtype=float)
 
-# ==========================
 
 
 def quat_to_rot(qx, qy, qz, qw):
