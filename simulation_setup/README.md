@@ -102,4 +102,7 @@ Inside console python ImFusion:
 ```
 import runpy; runpy.run_path("/home/chiararipiemo/iiwa_stack_ws/src/iiwa_probe_utils/hybrid_simulation/sweeps_for_hus.py", run_name="__main__")
 ```
+Now you have two PolySplines but you still need two **GlSpline**. Unfortunatly there is now way right to obtain them directly by code but you need to modify the xml ImFusion file. Inside the directory hybrid_simulation there is an example for this modification.
+
+
 
