@@ -63,44 +63,17 @@ rosservice call /csv_logger/stop
 The exit file will be a .csv file inside /iiwa_csv in this case.
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------
-## Execute raster scan
+## Plan and execute scanning
 ### Only touch the p0 point
-- robot che va da home > pre.approach > si posiziona normale al punto p0: il contatto avviene tra frame probe_tip e punto p0.Il frame probe_tip è circa coincidente con la punta finale del probe.
+This node makes the robot “touch” a surface point P0 computed from a point cloud.
+Given a PointCloud2 topic (e.g., /skin_cloud), it automatically selects a point P0 in front of the probe tip (along -Z_tool), aligns the probe orientation toward the surface (using normals if available), and executes a short far→pre→approach motion to bring the probe_tip to contact with a configurable safety margin.
+- An autonomous contact action between probe_tip and the patient surface defined by the input cloud.
 ```
-ROS_NAMESPACE=iiwa \
-~/iiwa_stack_ws/src/iiwa_probe_utils/scripts/4_nov/pre_to_pose_and_touch.py \
-  _group_name:=manipulator _ee_link:=iiwa_link_ee _ref_frame:=world \
-  _speed_scale:=0.2 \
-  _pre_joints:="[-2.529, 0.271, -0.268, 1.141, 2.932, 1.581, 0.174]" \
-  _target_joints:="[-0.176, 0.675, 0.008, -0.789, -0.004, 1.669, -0.169]" \
-  _cloud_topic:=/cloud_with_normals \
-  _tip_frame:=probe_tip \
-  _contact_margin:=0.006 \
-  _approach_dist:=0.05 _retreat_dist:=0.00 \
-  _far_steps:=1 _pre_steps:=12 _approach_steps:=18 \
-  _step_time:=0.25 _ik_timeout:=1.5 \
-  _allow_partial:=true _min_partial_fraction:=0.2 _pos_tol_final:=0.02 \
-  _ik_service:=/iiwa/compute_ik
+source ~/iiwa_stack_ws/devel/setup.bash
+roslaunch iiwa_probe_utils touch_p0.launch
 ```
-### Execute normal based raster scan for each point of the cloudpoint --> linear sweep
-- Codice che fa scorrere il probe su una linea retta (sweep lineare) P0→Pdes, Z_tool = −normale in ogni campione, roll bloccato sulla direzione della linea, lift e rientro in pre_approach
+<img width="826" height="668" alt="immagine" src="https://github.com/user-attachments/assets/c010f191-5f27-4b0f-be2a-8a22e01ecc69" />
 
-Approfondimenti nella cartella 4_nov
-```
-cd /home/chiararipiemo/iiwa_stack_ws
-source devel/setup.bash
-ROS_NAMESPACE=/iiwa \
-python3 src/iiwa_probe_utils/scripts/4_nov/pre_to_pose_touch_and_sweep_new.py \
-  _cloud_topic:=/cloud_with_normals \
-  _sweep_length:=0.20 \
-  _sweep_samples:=40 \
-  _sweep_pref_dir:='[0,1,0]' \
-  _approach_dist:=0.03 \
-  _retreat_dist:=0.06 \
-  _ik_timeout:=3.0 \
-  _allow_partial:=true \
-  _min_partial_fraction:=0.10
-```
 ### Execute no-normal based raster scan for each point of the cloudpoint (zfixed)--> linear sweep
 - visti i precedenti probemi riscontrati nel precedente aggiornamento, sto lavorando ad un codice che tenga sempre fisso l'orientamento del probe e non consideri più la nromale ad ogni punto
 ```
