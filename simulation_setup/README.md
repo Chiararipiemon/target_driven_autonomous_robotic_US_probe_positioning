@@ -32,19 +32,10 @@ source ~/iiwa_stack_ws/devel/setup.bash
 roslaunch iiwa_probe_utils setup_environment.launch
 ```
 -----------------------------------------------------------------------------------------------------
-## Load skin cloudpoint 
-Change pdc_path with yours
-
-This version is the one with the correct topic name:
+## Load and spawn skin cloudpoint with anatomy segmentations inside 
 ```
-rosrun iiwa_probe_utils add_patient_cloud_on_table.py \
-  _pcd_path:=/home/chiararipiemo/iiwa_stack_ws/src/iiwa_probe_utils/cloudpoint/skin_cloudpoint.pcd \
-  _frame_id:=world \
-  _x:=0.65 _y:=-0.20 \
-  _roll_deg:=90 _pitch_deg:=0 \
-  _align_mesh_yaw_with_table:=false _table_yaw:=1.5708 \
-  _z_lift:=0.12 \
-  _topic_name:=/skin_cloud
+source ~/iiwa_stack_ws/devel/setup.bash
+roslaunch iiwa_probe_utils skin_and_segmentations.launch
 ```
 If the point cloud doesn’t appear, go to the MoveIt! GUI → Add → PointCloud2 and select the topic: /cloud_with_normals. Then File --> save config
 ### Overlay the normal arrows
