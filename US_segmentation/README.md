@@ -1,4 +1,5 @@
 On the simulated ultrasound volumes, a pretrained neural network https://github.com/luohwu/UltraBones100k was tested for automatic bone segmentation without task-specific fine-tuning. While some vertebral structures were detected, the masks were often noisy, incomplete, and inconsistent across probe poses, leading to unreliable partial reconstructions. 
+
 **References**:
 ```
 @article{WU2025110435,
