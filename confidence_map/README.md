@@ -3,13 +3,17 @@ Our raw frames are stored as (H, W) = (512, 128) and are normalized to [0, 1] pr
 1. Inside ImFusion export your acquired US frames as .h5 file
 2. rename the file as input.h5, for example
 3. run 
-
-```
-cd /home/chiara_piemontese/iiwa_stack_ws/src/confidence_map/monai
-python3 confidence_map_monai.py
-```
+  ```
+  cd /home/chiara_piemontese/iiwa_stack_ws/src/confidence_map/monai
+  python3 confidence_map_monai.py
+  ```
 Some results: 
 <img width="283" height="424" alt="image" src="https://github.com/user-attachments/assets/fe63d7d8-441e-4bd1-a135-07bdb6da4a05" />
 
 <img width="1388" height="1000" alt="image" src="https://github.com/user-attachments/assets/7234f215-70b5-4947-9998-e2db10b4bafa" />
 
+4. obtain the confidence volume.mha inside ImFusion.
+  1. Import the output.h5 inside imfusion
+  2. click both the .h5 file and the tracking sequence (exracted from the US sweep)
+  3. Ultrasound > Convert to sweep
+  4. Then click Ultrasound > Sweep compounding --> you obtain the volume
