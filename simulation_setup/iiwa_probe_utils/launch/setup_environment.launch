@@ -1,0 +1,121 @@
+<?xml version="1.0"?>
+<!--
+  Description
+  This launch file starts a MoveIt demo for a KUKA iiwa (iiwa_moveit) and then:
+  1) publishes static TF frames for tool handling (ee -> tool0 -> probe_tip)
+  2) spawns a static planning scene (pedestal + table) via MoveIt services
+  3) attaches a probe-holder mesh as a collision object to the end-effector link
+
+  Usage
+    source ~/iiwa_stack_ws/devel/setup.bash
+    roslaunch iiwa_probe_utils setup_environment.launch
+
+  What to change for your own setup
+  - Robot:
+      * model, robot_name (namespace used by MoveIt)
+      * world_frame (if you use "map" or another global frame)
+  - Tool geometry / frames:
+      * L_tip (probe_tip offset along tool0 Z)
+      * tool_* args (mesh path, attachment link, pose offsets, scaling)
+      * ee_to_tool0 TF (if tool0 is not coincident with iiwa_link_ee)
+  - Environment:
+      * table_* and pedestal_* args to match your lab geometry
+  - Timing:
+      * tool_attach_delay if attach node starts too early (e.g., before move_group is ready)
+-->
+
+<launch>
+  <!-- Robot / MoveIt -->
+  <arg name="model" default="iiwa14"/>
+  <arg name="robot_name" default="iiwa"/>
+  <arg name="rviz" default="true"/>
+  <arg name="world_frame" default="world"/>
+
+  <!-- Tool frames -->
+  <arg name="L_tip" default="0.24"/>
+
+  <!-- Environment (planning scene objects) -->
+  <arg name="pedestal_size" default="0.60"/>
+  <arg name="table_length" default="1.80"/>
+  <arg name="table_width"  default="0.60"/>
+  <arg name="table_height" default="0.75"/>
+  <arg name="table_x"      default="0.65"/>
+  <arg name="table_y"      default="0.00"/>
+  <arg name="table_yaw"    default="1.5708"/> <!-- default: 90 deg rotation around Z -->
+
+  <!-- Tool mesh attachment -->
+  <arg name="tool_mesh_path" default="$(find iiwa_probe_utils)/probe_urdf/IFL_FrankaHolder.dae"/>
+  <arg name="tool_link_name" default="iiwa_link_ee"/>
+  <arg name="tool_object_name" default="probe_holder"/>
+
+  <arg name="tool_x" default="0.00"/>
+  <arg name="tool_y" default="0.00"/>
+  <arg name="tool_z" default="-0.11"/>
+  <arg name="tool_roll_deg"  default="0"/>
+  <arg name="tool_pitch_deg" default="0"/>
+  <arg name="tool_yaw_deg"   default="0"/>
+  <arg name="tool_scale_x" default="1.0"/>
+  <arg name="tool_scale_y" default="1.0"/>
+  <arg name="tool_scale_z" default="1.0"/>
+
+  <!-- Start-up ordering -->
+  <arg name="tool_attach_delay" default="2.0"/>
+
+  <!-- Start iiwa MoveIt demo -->
+  <include file="$(find iiwa_moveit)/launch/demo.launch">
+    <arg name="rviz" value="$(arg rviz)"/>
+    <arg name="robot_name" value="$(arg robot_name)"/>
+    <arg name="model" value="$(arg model)"/>
+  </include>
+
+  <!-- Static TF: world -> base (remove if already published elsewhere to avoid TF conflicts) -->
+  <node pkg="tf2_ros" type="static_transform_publisher" name="world_to_base"
+        args="0 0 0 0 0 0 1 $(arg world_frame) iiwa_link_0"/>
+
+  <!-- Static TF: ee -> tool0 (identity by default; change if your tool0 differs) -->
+  <node pkg="tf2_ros" type="static_transform_publisher" name="ee_to_tool0"
+        args="0 0 0 0 0 0 1 iiwa_link_ee tool0"/>
+
+  <!-- Static TF: tool0 -> probe_tip along +Z -->
+  <node pkg="tf2_ros" type="static_transform_publisher" name="tool0_to_probe_tip"
+        args="0 0 $(arg L_tip) 0 0 0 1 tool0 probe_tip"/>
+
+  <!-- Spawn static planning scene (pedestal + table) -->
+  <node pkg="iiwa_probe_utils" type="spawn_static_scene_iiwa.py" name="spawn_static_scene" output="screen">
+    <param name="moveit_ns"   value="$(arg robot_name)"/>
+    <param name="world_frame" value="$(arg world_frame)"/>
+
+    <param name="pedestal_size" value="$(arg pedestal_size)"/>
+    <param name="pedestal_z_top" value="0.0"/>
+
+    <param name="table_length" value="$(arg table_length)"/>
+    <param name="table_width"  value="$(arg table_width)"/>
+    <param name="table_height" value="$(arg table_height)"/>
+    <param name="table_x"      value="$(arg table_x)"/>
+    <param name="table_y"      value="$(arg table_y)"/>
+    <param name="table_yaw"    value="$(arg table_yaw)"/>
+  </node>
+
+  <!-- Attach tool mesh as a collision object to the EE link -->
+  <node pkg="iiwa_probe_utils" type="attach_tool_mesh.py" name="attach_probe_holder"
+        ns="$(arg robot_name)" output="screen"
+        launch-prefix="bash -c 'sleep $(arg tool_attach_delay); exec $0 $@'">
+
+    <param name="mesh_path" value="$(arg tool_mesh_path)"/>
+    <param name="link_name" value="$(arg tool_link_name)"/>
+    <param name="name"      value="$(arg tool_object_name)"/>
+
+    <param name="x" value="$(arg tool_x)"/>
+    <param name="y" value="$(arg tool_y)"/>
+    <param name="z" value="$(arg tool_z)"/>
+
+    <param name="roll_deg"  value="$(arg tool_roll_deg)"/>
+    <param name="pitch_deg" value="$(arg tool_pitch_deg)"/>
+    <param name="yaw_deg"   value="$(arg tool_yaw_deg)"/>
+
+    <param name="scale_x" value="$(arg tool_scale_x)"/>
+    <param name="scale_y" value="$(arg tool_scale_y)"/>
+    <param name="scale_z" value="$(arg tool_scale_z)"/>
+  </node>
+
+</launch>
