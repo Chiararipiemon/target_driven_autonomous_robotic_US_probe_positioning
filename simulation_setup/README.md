@@ -89,9 +89,17 @@ To obtain with this code something like this:
 
 <img width="658" height="489" alt="image" src="https://github.com/user-attachments/assets/2fe2eb5d-4fed-4f90-b036-4ec80b12f49e" />
 
-Then, inside console python imfusion:
+# Hybrid simulation
+The idea is to start from the tracking sequence extracted from the .csv file, improve the trajectory by smoothing it if it is too zig-zagged, and generate two splines: a transducer spline and a direction spline.
+First convert everything from Moveit! frame to ImFusion frame:
 
 ```
-import runpy; runpy.run_path("/home/chiararipiemo/iiwa_stack_ws/src/iiwa_probe_utils/Hybrid_simulation/sweeps_for_hus.py", run_name="__main__")
+cd /home/chiararipiemo/iiwa_stack_ws/src/iiwa_probe_utils/hybrid_simulation
+python3 convert_to_imfusion_frame.py
 ```
-From the csv you will obtain the sweeps to run the Hybrid simulation
+Inside console python ImFusion:
+
+```
+import runpy; runpy.run_path("/home/chiararipiemo/iiwa_stack_ws/src/iiwa_probe_utils/hybrid_simulation/sweeps_for_hus.py", run_name="__main__")
+```
+
