@@ -1,0 +1,83 @@
+<?xml version="1.0"?>
+<!--
+  Description
+  Publishes the patient skin point cloud and an organ/segmentation point cloud on the table.
+  Both clouds share the same transform (RPY + translation) and use "smart Z" alignment based on the skin.
+
+  Usage
+    # Terminal 1: environment + MoveIt
+    roslaunch iiwa_probe_utils setup_environment.launch
+
+    # Terminal 2: patient clouds
+    roslaunch iiwa_probe_utils skin_and_segmentations.launch
+
+  What to change for your own setup
+  - Update skin_pcd_path and seg_pcd_path to your own PCD files.
+  - Adjust x/y/roll/pitch/yaw + z_lift to place the patient correctly on your table.
+  - If your global frame is not "world", change frame_id (and RViz Fixed Frame accordingly).
+  - Topics can be changed if your pipeline expects different names.
+-->
+
+<launch>
+  <!-- Input data -->
+  <arg name="skin_pcd_path" default="$(find us_planner)/skin_patient_m.pcd"/>
+  <arg name="seg_pcd_path"  default="$(find us_planner)/organs_13_8_6_3_patient_sub32.pcd"/>
+
+  <!-- Placement -->
+  <arg name="frame_id" default="world"/>
+  <arg name="x" default="0.65"/>
+  <arg name="y" default="-0.20"/>
+  <arg name="roll_deg" default="90"/>
+  <arg name="pitch_deg" default="0"/>
+  <arg name="yaw_deg" default="0"/>
+
+  <!-- Table alignment -->
+  <arg name="align_mesh_yaw_with_table" default="false"/>
+  <arg name="table_yaw" default="1.5708"/>
+  <arg name="z_lift" default="0.12"/>
+
+  <!-- Environment (must match setup_environment.launch semantics) -->
+  <arg name="pedestal_size" default="0.60"/>
+  <arg name="pedestal_z_top" default="0.0"/>
+  <arg name="table_height" default="0.75"/>
+  <arg name="table_align_with_pedestal_top" default="true"/>
+
+  <!-- Output -->
+  <arg name="skin_topic" default="/skin_cloud"/>
+  <arg name="seg_topic"  default="/segmentation_cloud"/>
+
+  <!-- Publishing behavior -->
+  <arg name="publish_rate" default="1.0"/>
+  <arg name="publish_normals_on_skin" default="false"/>
+
+  <node pkg="iiwa_probe_utils" type="publish_skin_and_seg_on_table.py"
+        name="skin_and_segmentation_publisher" output="screen">
+
+    <param name="skin_pcd_path" value="$(arg skin_pcd_path)"/>
+    <param name="seg_pcd_path"  value="$(arg seg_pcd_path)"/>
+
+    <param name="frame_id" value="$(arg frame_id)"/>
+    <param name="x" value="$(arg x)"/>
+    <param name="y" value="$(arg y)"/>
+    <param name="roll_deg" value="$(arg roll_deg)"/>
+    <param name="pitch_deg" value="$(arg pitch_deg)"/>
+    <param name="yaw_deg" value="$(arg yaw_deg)"/>
+
+    <param name="align_mesh_yaw_with_table" value="$(arg align_mesh_yaw_with_table)"/>
+    <param name="table_yaw" value="$(arg table_yaw)"/>
+    <param name="z_lift" value="$(arg z_lift)"/>
+
+    <param name="pedestal_size" value="$(arg pedestal_size)"/>
+    <param name="pedestal_z_top" value="$(arg pedestal_z_top)"/>
+    <param name="table_height" value="$(arg table_height)"/>
+    <param name="table_align_with_pedestal_top" value="$(arg table_align_with_pedestal_top)"/>
+
+    <param name="skin_topic" value="$(arg skin_topic)"/>
+    <param name="seg_topic" value="$(arg seg_topic)"/>
+
+    <param name="publish_rate" value="$(arg publish_rate)"/>
+    <param name="publish_normals_on_skin" value="$(arg publish_normals_on_skin)"/>
+  </node>
+</launch>
+
+
