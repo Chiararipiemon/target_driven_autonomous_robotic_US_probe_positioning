@@ -65,6 +65,8 @@ The exit file will be a .csv file inside /iiwa_csv in this case.
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------
 ## Plan and execute scanning
+IMPORTANT!For simualtion only: trajectory tracking in joint space via waypoint IK, with a fixed tool-orientation constraint (fixed-Z), where the Cartesian path is generated offline-ish from a point cloud (plus smoothing/MLS), and then executed open-loop as a time-parameterized joint trajectory.There is no continuous feedback controller correcting the motion online based on measured contact/force/surface error during simulation execution because everything is already "perfect".
+
 ### Only touch the p0 point
 This node makes the robot “touch” a surface point P0 computed from a point cloud.
 Given a PointCloud2 topic (e.g., /skin_cloud), it automatically selects a point P0 in front of the probe tip (along -Z_tool), aligns the probe orientation toward the surface (using normals if available), and executes a short far→pre→approach motion to bring the probe_tip to contact with a configurable safety margin.
