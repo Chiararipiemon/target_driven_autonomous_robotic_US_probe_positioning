@@ -1,9 +1,13 @@
 # Simulation set-up and requirements
-This repo works with Ubuntu 20.04 and ROS Noetic. Most of the files are connected and based on ***https://github.com/IFL-CAMP/iiwa_stack***.
+This repo works with Ubuntu 20.04 and ROS Noetic. Some files are connected and based on ***https://github.com/IFL-CAMP/iiwa_stack***.
 With these scripts you are able to generate trajectories and let the robot perform the scans on the skin cloudpoint of the patient.
 In this work there are two planned trajectories:
 1. Linear along the spine
 2. Serpentine
+These trajectories are planned to acquire the US frames and obtain:
+1. the confidence volume
+2. the partial volume reconstruction
+These data are used for the other moduls of the pipeline
 ### Load iiwa_stack
 #### Clone this repository to your workspace:
 ```
@@ -31,7 +35,6 @@ Load the directory ***iiwa_probe_utils***. The directory should be inside iiwa_s
 source ~/iiwa_stack_ws/devel/setup.bash
 roslaunch iiwa_probe_utils setup_environment.launch
 ```
------------------------------------------------------------------------------------------------------
 ## Load and spawn skin cloudpoint with anatomy segmentations inside 
 ```
 source ~/iiwa_stack_ws/devel/setup.bash
@@ -41,8 +44,6 @@ If the point cloud doesn’t appear, go to the MoveIt! GUI → Add → PointClou
 
 <img width="1092" height="626" alt="immagine" src="https://github.com/user-attachments/assets/9f4f0aa9-c033-4ae3-9a86-ea2d8b910c47" />
 
-
------------------------------------------------------------------------------------------------------
 After running your node for path execution, if you want to record everything ad get the spline for running the hybrid simulation:
 ## Record csv file [x,y,z,qx,qy,qz,qw]
 ```
@@ -58,7 +59,7 @@ rosservice call /csv_logger/start
 rosservice call /csv_logger/stop
 ```
 The exit file will be a .csv file inside /iiwa_csv in this case.
-
+--------------------------------------------------------------------------------------------------------------------------------------------------------------
 ## Execute raster scan
 ### Only touch the p0 point
 - robot che va da home > pre.approach > si posiziona normale al punto p0: il contatto avviene tra frame probe_tip e punto p0.Il frame probe_tip è circa coincidente con la punta finale del probe.
