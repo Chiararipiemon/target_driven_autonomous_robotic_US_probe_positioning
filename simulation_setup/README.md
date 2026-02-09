@@ -26,28 +26,10 @@ source devel/setup.bash
 #### Load the directory:
 Load the directory ***iiwa_probe_utils***. The directory should be inside iiwa_stack/src. Load also the directory ***cloudpoint*** inside iiwa_probe_utils.
 
-## Spawning of manipulator + bed + robot pedestal
+## Spawning of manipulator + bed + robot pedestal + attach the probe with probe holder
 ```
 source ~/iiwa_stack_ws/devel/setup.bash
-roslaunch iiwa_probe_utils demo_with_tool_env_iiwa_stack.launch \
-  model:=iiwa14 robot_name:=iiwa rviz:=true L_tip:=0.24 \
-  table_yaw:=1.5708
-```
-The length L_Tip is set to 0.24 to simulate the probe exerting slight pressure on the patient’s skin
-
-
------------------------------------------------------------------------------------------------------
-## Attach the probe 
-Change the *_mesh_path* with yours.
-```
-source ~/iiwa_stack_ws/devel/setup.bash
-ROS_NAMESPACE=iiwa rosrun iiwa_probe_utils attach_tool_mesh.py \
-  _mesh_path:=/home/chiararipiemo/iiwa_stack_ws/src/iiwa_probe_utils/probe_urdf/IFL_FrankaHolder.dae \
-  _link_name:=iiwa_link_ee \
-  _name:=probe_holder \
-  _x:=0.00 _y:=0.00 _z:=-0.10 \
-  _roll_deg:=0 _pitch_deg:=0 _yaw_deg:=0 \
-  _scale_x:=1.0 _scale_y:=1.0 _scale_z:=1.0
+roslaunch iiwa_probe_utils setup_environment.launch
 ```
 -----------------------------------------------------------------------------------------------------
 ## Load skin cloudpoint 
