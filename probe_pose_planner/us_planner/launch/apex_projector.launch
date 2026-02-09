@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="target_topic" default="/us_target"/>
+  <arg name="cloud_topic"  default="/skin_cloud"/>
+  <arg name="apex_topic"   default="/us_apex"/>
+
+  <arg name="k_neighbors"  default="30"/>
+  <arg name="use_plane_fit" default="true"/>
+  <arg name="target_eps"   default="1e-4"/>
+
+  <node pkg="us_planner"
+        type="apex_projector.py"
+        name="apex_projector"
+        output="screen">
+
+    <param name="target_topic" value="$(arg target_topic)"/>
+    <param name="cloud_topic"  value="$(arg cloud_topic)"/>
+    <param name="apex_topic"   value="$(arg apex_topic)"/>
+
+    <param name="k_neighbors"  value="$(arg k_neighbors)"/>
+    <param name="use_plane_fit" value="$(arg use_plane_fit)"/>
+    <param name="target_eps"   value="$(arg target_eps)"/>
+  </node>
+</launch>
