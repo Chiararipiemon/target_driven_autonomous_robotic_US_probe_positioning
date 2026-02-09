@@ -114,4 +114,5 @@ Then you will have something like this:
 <img width="1845" height="859" alt="immagine" src="https://github.com/user-attachments/assets/995b54dd-f164-49a8-8aa4-6ade12dc2bfe" />
 Now you can run **Hybrid Ultrasound Simulation** inside ImFusionSuite
 
+<img width="1114" height="455" alt="hbridsimulation" src="https://github.com/user-attachments/assets/29801c97-3f5e-4f9d-a45b-f4671ddd1f0e" />
 
