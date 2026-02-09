@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-moveit_to_imfusion_bridge.py
 
 This script converts a list of poses exported from the robot/MoveIt world frame
 into the ImFusion frame, and writes a new CSV in the format expected by ImFusion.
