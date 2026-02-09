@@ -1,0 +1,102 @@
+<?xml version="1.0"?>
+<!--
+  Description
+  Runs the "touch P0" behavior:
+    (optional) home -> pre_approach -> target_pose -> pick P0 from a PointCloud2 -> touch.
+
+  Usage
+    roslaunch iiwa_probe_utils touch_p0.launch
+
+  What to change for your own setup
+  - Namespace / IK service:
+      * robot_name, ik_service
+  - Frames:
+      * ref_frame, ee_link, tip_frame
+  - Cloud:
+      * cloud_topic (can be /skin_cloud if you use your patient publisher)
+  - Motions:
+      * pre_joints, target_joints, speed_scale
+  - Touch tuning:
+      * contact_margin, approach_dist, step counts, step_time
+-->
+
+<launch>
+  <!-- Namespace for MoveIt/iiwa services/topics -->
+  <arg name="robot_name" default="iiwa"/>
+
+  <!-- MoveIt / frames -->
+  <arg name="group_name" default="manipulator"/>
+  <arg name="ee_link" default="iiwa_link_ee"/>
+  <arg name="ref_frame" default="world"/>
+  <arg name="speed_scale" default="0.2"/>
+
+  <!-- Optional home -->
+  <arg name="home_named_target" default=""/>
+
+  <!-- Cloud -->
+  <arg name="cloud_topic" default="/skin_cloud"/>
+  <arg name="wait_for_cloud_sec" default="5.0"/>
+  <arg name="transform_cloud_to_ref_frame" default="false"/>
+
+  <!-- Tip -->
+  <arg name="tip_frame" default="probe_tip"/>
+  <arg name="tip_to_contact" default="0.0"/>
+
+  <!-- Touch params -->
+  <arg name="contact_margin" default="0.006"/>
+  <arg name="approach_dist" default="0.05"/>
+  <arg name="retreat_dist" default="0.00"/>
+
+  <arg name="far_steps" default="1"/>
+  <arg name="pre_steps" default="12"/>
+  <arg name="approach_steps" default="18"/>
+
+  <arg name="step_time" default="0.25"/>
+  <arg name="ik_timeout" default="1.5"/>
+  <arg name="ik_service" default="/$(arg robot_name)/compute_ik"/>
+
+  <arg name="allow_partial" default="true"/>
+  <arg name="min_partial_fraction" default="0.2"/>
+  <arg name="flip_check" default="true"/>
+  <arg name="execute" default="true"/>
+
+  <group ns="$(arg robot_name)">
+    <node pkg="iiwa_probe_utils" type="touch_p0_from_cloud.py"
+          name="touch_p0_from_cloud" output="screen">
+
+      <param name="group_name" value="$(arg group_name)"/>
+      <param name="ee_link" value="$(arg ee_link)"/>
+      <param name="ref_frame" value="$(arg ref_frame)"/>
+      <param name="speed_scale" value="$(arg speed_scale)"/>
+
+      <param name="home_named_target" value="$(arg home_named_target)"/>
+
+      <rosparam param="pre_joints">[-2.529, 0.271, -0.268, 1.141, 2.932, 1.581, 0.174]</rosparam>
+      <rosparam param="target_joints">[-0.176, 0.675, 0.008, -0.789, -0.004, 1.669, -0.169]</rosparam>
+
+      <param name="cloud_topic" value="$(arg cloud_topic)"/>
+      <param name="wait_for_cloud_sec" value="$(arg wait_for_cloud_sec)"/>
+      <param name="transform_cloud_to_ref_frame" value="$(arg transform_cloud_to_ref_frame)"/>
+
+      <param name="tip_frame" value="$(arg tip_frame)"/>
+      <param name="tip_to_contact" value="$(arg tip_to_contact)"/>
+
+      <param name="contact_margin" value="$(arg contact_margin)"/>
+      <param name="approach_dist" value="$(arg approach_dist)"/>
+      <param name="retreat_dist" value="$(arg retreat_dist)"/>
+
+      <param name="far_steps" value="$(arg far_steps)"/>
+      <param name="pre_steps" value="$(arg pre_steps)"/>
+      <param name="approach_steps" value="$(arg approach_steps)"/>
+
+      <param name="step_time" value="$(arg step_time)"/>
+      <param name="ik_timeout" value="$(arg ik_timeout)"/>
+      <param name="ik_service" value="$(arg ik_service)"/>
+
+      <param name="allow_partial" value="$(arg allow_partial)"/>
+      <param name="min_partial_fraction" value="$(arg min_partial_fraction)"/>
+      <param name="flip_check" value="$(arg flip_check)"/>
+      <param name="execute" value="$(arg execute)"/>
+    </node>
+  </group>
+</launch>
