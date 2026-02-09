@@ -8,7 +8,8 @@ In this work there are two planned trajectories:
 These trajectories are planned to acquire the US frames and obtain:
 1. the confidence volume
 2. the partial volume reconstruction
-These data are used for the other moduls of the pipeline
+   
+These data are used for the other modules of the pipeline
 ### Load iiwa_stack
 #### Clone this repository to your workspace:
 ```
