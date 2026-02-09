@@ -43,20 +43,13 @@ If the point cloud doesn’t appear, go to the MoveIt! GUI → Add → PointClou
 
 
 -----------------------------------------------------------------------------------------------------
-After running your node for path execution, if you want to record everything ad get the spline for the hybrid simulation:
+After running your node for path execution, if you want to record everything ad get the spline for running the hybrid simulation:
 ## Record csv file [x,y,z,qx,qy,qz,qw]
 ```
 source ~/iiwa_stack_ws/devel/setup.bash
-rosrun iiwa_probe_utils csv_logger.py \
-  _fixed_frame:=world \
-  _ee_frame:=probe_tip \
-  _units:=mm \
-  _rate_hz:=20 \
-  _output_dir:=/home/$USER/iiwa_csv \
-  _tip_offset_m:=0.0
+roslaunch iiwa_probe_utils csv_logger.launch
 ```
 ### Start
-
 ```
 rosservice call /csv_logger/start
 ```
@@ -65,6 +58,7 @@ rosservice call /csv_logger/start
 rosservice call /csv_logger/stop
 ```
 The exit file will be a .csv file inside /iiwa_csv in this case.
+
 ## Execute raster scan
 ### Only touch the p0 point
 - robot che va da home > pre.approach > si posiziona normale al punto p0: il contatto avviene tra frame probe_tip e punto p0.Il frame probe_tip è circa coincidente con la punta finale del probe.
