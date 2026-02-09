@@ -1,0 +1,102 @@
+<?xml version="1.0"?>
+<!--
+  Description
+  Touch P0 + linear sweep with fixed probe Z axis in ref_frame.
+
+  Usage
+    roslaunch iiwa_probe_utils touch_p0_and_sweep_fixed_z.launch
+
+  What to change for your own setup
+  - pre_joints / target_joints
+  - cloud_topic (e.g., /skin_cloud)
+  - fixed_z_dir and sweep_pref_dir
+-->
+
+<launch>
+  <arg name="robot_name" default="iiwa"/>
+
+  <arg name="group_name" default="manipulator"/>
+  <arg name="ee_link" default="iiwa_link_ee"/>
+  <arg name="ref_frame" default="world"/>
+  <arg name="speed_scale" default="0.2"/>
+
+  <arg name="cloud_topic" default="/skin_cloud"/>
+  <arg name="wait_for_cloud_sec" default="30.0"/>
+
+  <arg name="tip_frame" default="probe_tip"/>
+  <arg name="tip_to_contact" default="0.0"/>
+
+  <arg name="contact_margin" default="0.006"/>
+  <arg name="approach_dist" default="0.03"/>
+  <arg name="retreat_dist" default="0.06"/>
+
+  <arg name="far_steps" default="1"/>
+  <arg name="pre_steps" default="12"/>
+  <arg name="approach_steps" default="18"/>
+  <arg name="step_time" default="0.25"/>
+
+  <arg name="sweep_length" default="0.20"/>
+  <arg name="sweep_samples" default="40"/>
+  <arg name="sweep_step_time" default="0.25"/>
+  <arg name="sweep_pref_dir" default="[0,1,0]"/>
+
+  <arg name="use_fixed_z" default="true"/>
+  <arg name="fixed_z_dir" default="[0,0,-1]"/>
+  <arg name="fixed_flip_to_face_target" default="true"/>
+
+  <arg name="ik_timeout" default="3.0"/>
+  <arg name="allow_partial" default="true"/>
+  <arg name="min_partial_fraction" default="0.10"/>
+  <arg name="ik_service" default="/$(arg robot_name)/compute_ik"/>
+
+  <arg name="return_to_pre" default="true"/>
+  <arg name="execute" default="true"/>
+
+  <group ns="$(arg robot_name)">
+    <node pkg="iiwa_probe_utils" type="touch_p0_and_sweep_fixed_z.py"
+          name="touch_p0_and_sweep_fixed_z" output="screen">
+
+      <param name="group_name" value="$(arg group_name)"/>
+      <param name="ee_link" value="$(arg ee_link)"/>
+      <param name="ref_frame" value="$(arg ref_frame)"/>
+      <param name="speed_scale" value="$(arg speed_scale)"/>
+
+      <rosparam param="pre_joints">[-2.529, 0.271, -0.268, 1.141, 2.932, 1.581, 0.174]</rosparam>
+      <rosparam param="target_joints">[0.051, 0.849, 2.083, 0.542, 0.821, -1.966, 2.934]</rosparam>
+
+      <param name="cloud_topic" value="$(arg cloud_topic)"/>
+      <param name="wait_for_cloud_sec" value="$(arg wait_for_cloud_sec)"/>
+
+      <param name="tip_frame" value="$(arg tip_frame)"/>
+      <param name="tip_to_contact" value="$(arg tip_to_contact)"/>
+
+      <param name="contact_margin" value="$(arg contact_margin)"/>
+      <param name="approach_dist" value="$(arg approach_dist)"/>
+      <param name="retreat_dist" value="$(arg retreat_dist)"/>
+
+      <param name="far_steps" value="$(arg far_steps)"/>
+      <param name="pre_steps" value="$(arg pre_steps)"/>
+      <param name="approach_steps" value="$(arg approach_steps)"/>
+      <param name="step_time" value="$(arg step_time)"/>
+
+      <param name="sweep_length" value="$(arg sweep_length)"/>
+      <param name="sweep_samples" value="$(arg sweep_samples)"/>
+      <param name="sweep_step_time" value="$(arg sweep_step_time)"/>
+	    <rosparam param="sweep_pref_dir" subst_value="true">$(arg sweep_pref_dir)</rosparam>
+	    <rosparam param="fixed_z_dir" subst_value="true">$(arg fixed_z_dir)</rosparam>
+
+
+      <param name="use_fixed_z" value="$(arg use_fixed_z)"/>
+      <param name="fixed_flip_to_face_target" value="$(arg fixed_flip_to_face_target)"/>
+
+      <param name="ik_timeout" value="$(arg ik_timeout)"/>
+      <param name="allow_partial" value="$(arg allow_partial)"/>
+      <param name="min_partial_fraction" value="$(arg min_partial_fraction)"/>
+      <param name="ik_service" value="$(arg ik_service)"/>
+
+      <param name="return_to_pre" value="$(arg return_to_pre)"/>
+      <param name="execute" value="$(arg execute)"/>
+    </node>
+  </group>
+</launch>
+
