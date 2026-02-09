@@ -21,3 +21,5 @@ Inside **/confidence_map** you find all the custom scripts for running the confi
 Inside **/probe_pose_planner** there are all the custom scripts for running the probe US pose optimization problem 
 
 Inside **/validation there** there is a README.md where you can find all the instructions to run and execute the entire pipeline and test everything
+
+<img width="826" height="668" alt="immagine" src="https://github.com/user-attachments/assets/c010f191-5f27-4b0f-be2a-8a22e01ecc69" />
