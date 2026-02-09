@@ -4,6 +4,7 @@ With these scripts you are able to generate trajectories and let the robot perfo
 In this work there are two planned trajectories:
 1. Linear along the spine
 2. Serpentine
+   
 These trajectories are planned to acquire the US frames and obtain:
 1. the confidence volume
 2. the partial volume reconstruction
