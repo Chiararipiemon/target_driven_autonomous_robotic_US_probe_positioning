@@ -30,3 +30,5 @@ cd jupyter notebook AI_ultrasound_segmentation/segment_spines_images.ipynb
 5. Import the masks as 2D Image Set and modify the modality in Label Map
 
 Experiments were run on an NVIDIA GeForce RTX 3090 (24 GB VRAM) using NVIDIA driver 560.35.03 (CUDA 12.6)
+
+<img width="872" height="607" alt="image" src="https://github.com/user-attachments/assets/a6a79d2e-965e-4adf-8ba7-454f032e30a9" />
