@@ -13,7 +13,8 @@ Some results:
 <img width="1388" height="1000" alt="image" src="https://github.com/user-attachments/assets/7234f215-70b5-4947-9998-e2db10b4bafa" />
 
 4. obtain the confidence volume.mha inside ImFusion.
-  1. Import the output.h5 inside imfusion
-  2. click both the .h5 file and the tracking sequence (exracted from the US sweep)
-  3. Ultrasound > Convert to sweep
-  4. Then click Ultrasound > Sweep compounding --> you obtain the volume
+   
+  - Import the output.h5 inside imfusion
+  - click both the .h5 file and the tracking sequence (exracted from the US sweep)
+  - Ultrasound > Convert to sweep
+  - then click Ultrasound > Sweep compounding --> you obtain the volume
