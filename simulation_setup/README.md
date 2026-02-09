@@ -104,5 +104,11 @@ import runpy; runpy.run_path("/home/chiararipiemo/iiwa_stack_ws/src/iiwa_probe_u
 ```
 Now you have two PolySplines but you still need two **GlSpline**. Unfortunatly there is now way right to obtain them directly by code but you need to modify the xml ImFusion file. Inside the directory hybrid_simulation there is an example for this modification.
 
+## Move manually the splines from Global annotations to segmentation label
+<img width="412" height="173" alt="immagine" src="https://github.com/user-attachments/assets/43bd2234-96d1-44a4-bf88-6981582aa329" />
+
+Then you will have something like this:
+<img width="1845" height="859" alt="immagine" src="https://github.com/user-attachments/assets/995b54dd-f164-49a8-8aa4-6ade12dc2bfe" />
+Now you can run **Hybrid Ultrasound Simulation** inside ImFusionSuite
 
 
