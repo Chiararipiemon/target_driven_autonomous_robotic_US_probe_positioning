@@ -1,0 +1,123 @@
+<?xml version="1.0"?>
+<!--
+  Description
+  Touch a surface point P0 from a point cloud and execute a serpentine raster scan
+  while keeping a FIXED tool Z axis in the reference frame. Optional MLS projection
+  is used to reduce jagged trajectories on sparse/discrete point clouds.
+
+  Usage
+    roslaunch iiwa_probe_utils raster_serpentine_scan_mls.launch
+
+  What to change for your own setup
+  - cloud_topic (e.g. /skin_cloud)
+  - pre_joints / target_joints (robot-specific)
+  - fixed_z_dir and sweep_pref_dir (world-frame directions)
+  - raster parameters (width/spacing/samples)
+  - MLS parameters (k/alpha/reproject)
+-->
+
+<launch>
+  <arg name="robot_name" default="iiwa"/>
+
+  <!-- MoveIt -->
+  <arg name="group_name" default="manipulator"/>
+  <arg name="ee_link" default="iiwa_link_ee"/>
+  <arg name="ref_frame" default="world"/>
+  <arg name="speed_scale" default="0.2"/>
+  <arg name="ik_service" default="/$(arg robot_name)/compute_ik"/>
+  <arg name="ik_timeout" default="3.0"/>
+  <arg name="allow_partial" default="true"/>
+  <arg name="min_partial_fraction" default="0.10"/>
+
+  <!-- Cloud -->
+  <arg name="cloud_topic" default="/skin_cloud"/>
+
+  <!-- Tool tip -->
+  <arg name="tip_frame" default="probe_tip"/>
+  <arg name="tip_to_contact" default="0.0"/>
+
+  <!-- Touch -->
+  <arg name="contact_margin" default="0.006"/>
+  <arg name="approach_dist" default="0.03"/>
+  <arg name="retreat_dist" default="0.06"/>
+
+  <!-- Touch discretization -->
+  <arg name="far_steps" default="1"/>
+  <arg name="pre_steps" default="12"/>
+  <arg name="approach_steps" default="18"/>
+  <arg name="step_time" default="0.25"/>
+
+  <!-- Raster -->
+  <arg name="raster_enable" default="true"/>
+  <arg name="raster_style" default="cross"/> <!-- cross | parallel -->
+  <arg name="sweep_length" default="0.20"/>
+  <arg name="raster_width" default="0.06"/>
+  <arg name="raster_line_spacing" default="0.02"/>
+  <arg name="samples_per_line" default="20"/>
+  <arg name="raster_bridge_samples" default="6"/>
+  <arg name="bridge_alpha" default="0.04"/>
+
+  <!-- Fixed-Z constraint -->
+  <arg name="fixed_z_dir" default="[0,0,-1]"/>
+  <arg name="sweep_pref_dir" default="[0,1,0]"/>
+  <arg name="fixed_flip_to_face_target" default="true"/>
+
+  <!-- MLS -->
+  <arg name="mls_enable" default="true"/>
+  <arg name="mls_k" default="35"/>
+  <arg name="mls_alpha" default="0.25"/>
+  <arg name="mls_reproject" default="true"/>
+
+  <group ns="$(arg robot_name)">
+    <node pkg="iiwa_probe_utils" type="raster_serpentine_scan_MLS.py"
+          name="raster_serpentine_scan_mls" output="screen">
+
+      <param name="group_name" value="$(arg group_name)"/>
+      <param name="ee_link" value="$(arg ee_link)"/>
+      <param name="ref_frame" value="$(arg ref_frame)"/>
+      <param name="speed_scale" value="$(arg speed_scale)"/>
+
+      <!-- Robot-specific joint presets (edit these for your robot) -->
+      <rosparam param="pre_joints">[-2.529, 0.271, -0.268, 1.141, 2.932, 1.581, 0.174]</rosparam>
+      <rosparam param="target_joints">[0.051, 0.849, 2.083, 0.542, 0.821, -1.966, 2.934]</rosparam>
+
+      <param name="cloud_topic" value="$(arg cloud_topic)"/>
+
+      <param name="tip_frame" value="$(arg tip_frame)"/>
+      <param name="tip_to_contact" value="$(arg tip_to_contact)"/>
+
+      <param name="contact_margin" value="$(arg contact_margin)"/>
+      <param name="approach_dist" value="$(arg approach_dist)"/>
+      <param name="retreat_dist" value="$(arg retreat_dist)"/>
+
+      <param name="far_steps" value="$(arg far_steps)"/>
+      <param name="pre_steps" value="$(arg pre_steps)"/>
+      <param name="approach_steps" value="$(arg approach_steps)"/>
+      <param name="step_time" value="$(arg step_time)"/>
+
+      <param name="raster_enable" value="$(arg raster_enable)"/>
+      <param name="raster_style" value="$(arg raster_style)"/>
+      <param name="sweep_length" value="$(arg sweep_length)"/>
+      <param name="raster_width" value="$(arg raster_width)"/>
+      <param name="raster_line_spacing" value="$(arg raster_line_spacing)"/>
+      <param name="samples_per_line" value="$(arg samples_per_line)"/>
+      <param name="raster_bridge_samples" value="$(arg raster_bridge_samples)"/>
+      <param name="bridge_alpha" value="$(arg bridge_alpha)"/>
+
+      <!-- IMPORTANT: vectors must use rosparam + subst_value -->
+      <rosparam param="fixed_z_dir"   subst_value="true">$(arg fixed_z_dir)</rosparam>
+      <rosparam param="sweep_pref_dir" subst_value="true">$(arg sweep_pref_dir)</rosparam>
+      <param name="fixed_flip_to_face_target" value="$(arg fixed_flip_to_face_target)"/>
+
+      <param name="mls_enable" value="$(arg mls_enable)"/>
+      <param name="mls_k" value="$(arg mls_k)"/>
+      <param name="mls_alpha" value="$(arg mls_alpha)"/>
+      <param name="mls_reproject" value="$(arg mls_reproject)"/>
+
+      <param name="ik_timeout" value="$(arg ik_timeout)"/>
+      <param name="allow_partial" value="$(arg allow_partial)"/>
+      <param name="min_partial_fraction" value="$(arg min_partial_fraction)"/>
+      <param name="ik_service" value="$(arg ik_service)"/>
+    </node>
+  </group>
+</launch>
