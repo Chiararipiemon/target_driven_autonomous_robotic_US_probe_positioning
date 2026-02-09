@@ -100,6 +100,7 @@
   <node pkg="iiwa_probe_utils" type="attach_tool_mesh.py" name="attach_probe_holder"
         ns="$(arg robot_name)" output="screen"
         launch-prefix="bash -c 'sleep $(arg tool_attach_delay); exec $0 $@'">
+    <rosparam param="touch_links">[iiwa_link_6, iiwa_link_7, iiwa_link_ee]</rosparam>
 
     <param name="mesh_path" value="$(arg tool_mesh_path)"/>
     <param name="link_name" value="$(arg tool_link_name)"/>
