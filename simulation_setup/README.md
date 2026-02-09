@@ -38,16 +38,7 @@ source ~/iiwa_stack_ws/devel/setup.bash
 roslaunch iiwa_probe_utils skin_and_segmentations.launch
 ```
 If the point cloud doesn’t appear, go to the MoveIt! GUI → Add → PointCloud2 and select the topic: /cloud_with_normals. Then File --> save config
-### Overlay the normal arrows
-The normal arrows are the blue arrows that you can visualize in the image below
-```
-source ~/iiwa_stack_ws/devel/setup.bash
-rosrun iiwa_probe_utils normals_markers_from_cloud.py \
-  _topic_in:=/cloud_with_normals \
-  _step:=25 \
-  _scale:=0.03 \
-  _max_markers:=500
-```
+
 <img width="1092" height="626" alt="immagine" src="https://github.com/user-attachments/assets/9f4f0aa9-c033-4ae3-9a86-ea2d8b910c47" />
 
 
