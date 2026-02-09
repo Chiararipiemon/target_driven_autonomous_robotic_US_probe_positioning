@@ -48,6 +48,7 @@ If the point cloud doesn’t appear, go to the MoveIt! GUI → Add → PointClou
 
 After running your node for path execution, if you want to record everything ad get the spline for running the hybrid simulation:
 ## Record csv file [x,y,z,qx,qy,qz,qw]
+You need to record the probe poses to obtain the trajectory and convert it into the inputs for the hybrid simulation. SO:
 ```
 source ~/iiwa_stack_ws/devel/setup.bash
 roslaunch iiwa_probe_utils csv_logger.launch
