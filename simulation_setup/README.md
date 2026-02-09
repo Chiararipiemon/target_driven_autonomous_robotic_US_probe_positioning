@@ -60,6 +60,7 @@ rosservice call /csv_logger/start
 rosservice call /csv_logger/stop
 ```
 The exit file will be a .csv file inside /iiwa_csv in this case.
+
 --------------------------------------------------------------------------------------------------------------------------------------------------------------
 ## Execute raster scan
 ### Only touch the p0 point
