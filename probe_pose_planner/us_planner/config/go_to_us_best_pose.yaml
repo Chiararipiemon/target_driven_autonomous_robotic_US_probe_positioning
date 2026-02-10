@@ -1,0 +1,27 @@
+# GoToUsBestPose parameters (private namespace of the node).
+# What you must change to test this pipeline with your own setup:
+# - group_name: your MoveIt planning group name
+# - ee_link: the MoveIt end-effector link used for planning
+# - ref_frame: planning reference frame (e.g., world or base_link)
+# - pre_joints / target_joints: your joint configurations (robot-specific)
+# - tip_frame: TF frame for your probe tip
+# - best_pose_topic: PoseStamped topic that provides the best pose
+# - contact_margin / approach_dist: approach geometry (meters)
+
+group_name: manipulator
+ee_link: iiwa_link_ee
+ref_frame: world
+speed_scale: 0.2
+
+pre_joints: [-2.529, 0.271, -0.268, 1.141, 2.932, 1.581, 0.174]
+target_joints: [-0.176, 0.675, 0.008, -0.789, -0.004, 1.669, -0.169]
+
+best_pose_topic: /us_best_pose
+best_pose_timeout: 10.0
+
+tip_frame: probe_tip
+tip_to_contact: 0.0
+contact_margin: 0.006
+
+two_stage: true
+approach_dist: 0.03
