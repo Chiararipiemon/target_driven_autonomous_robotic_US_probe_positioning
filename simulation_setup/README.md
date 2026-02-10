@@ -5,6 +5,9 @@ In this work there are two planned trajectories:
 1. Linear along the spine
 2. Serpentine
    
+<img width="703" height="364" alt="immagine" src="https://github.com/user-attachments/assets/a567b793-78ab-4031-8592-96badeb319e7" />
+
+   
 These trajectories are planned to acquire the US frames and obtain:
 1. the confidence volume
 2. the partial volume reconstruction
