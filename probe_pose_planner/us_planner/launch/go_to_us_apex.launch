@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<launch>
+  <!--
+    Launch: GoToUsApex
+
+    What you must change to test with your own setup:
+    - ros_namespace: namespace where your robot + MoveIt run (e.g., iiwa)
+    - param_file: YAML containing your joints, frames, topics and tolerances
+    - Ensure TF contains ee_link -> tip_frame
+    - Ensure MoveIt (move_group) is running and robot_description matches the namespace
+  -->
+
+  <arg name="ros_namespace" default="iiwa"/>
+  <arg name="param_file" default="$(find us_planner)/config/go_to_us_apex.yaml"/>
+
+  <!-- Optional quick overrides -->
+  <arg name="speed_scale" default="0.2"/>
+  <arg name="apex_pose_topic" default="/us_apex_pose"/>
+  <arg name="apex_timeout" default="10.0"/>
+
+  <group ns="$(arg ros_namespace)">
+    <node pkg="us_planner"
+          type="go_to_us_apex.py"
+          name="go_to_us_apex"
+          output="screen">
+
+      <!-- Load defaults from YAML into the node private namespace -->
+      <rosparam command="load" file="$(arg param_file)" />
+
+      <!-- Override a few common parameters from launch args -->
+      <param name="speed_scale" value="$(arg speed_scale)"/>
+      <param name="apex_pose_topic" value="$(arg apex_pose_topic)"/>
+      <param name="apex_timeout" value="$(arg apex_timeout)"/>
+
+    </node>
+  </group>
+</launch>
