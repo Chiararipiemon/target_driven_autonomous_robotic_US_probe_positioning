@@ -40,3 +40,6 @@ roslaunch us_planner go_to_us_apex.launch
 <img width="947" height="458" alt="immagine" src="https://github.com/user-attachments/assets/38130032-97e4-4984-bb59-70d2c553b1df" />
 
 ### Record probe pose onto apex point 
+```
+roslaunch us_planner record_us_apex_pose_imfusion_csv.launch
+```
