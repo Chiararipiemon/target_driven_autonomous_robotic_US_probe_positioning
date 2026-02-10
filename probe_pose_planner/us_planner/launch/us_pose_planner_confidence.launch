@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<launch>
+  <!--
+    Launch: us_pose_planner_confidence 
+
+    What you must change to test this pipeline with your own setup:
+    - param_file: YAML with topics, confidence volume settings and planner weights
+    - Ensure /skin_cloud, /us_target_viz and /us_apex_pose are being published
+    - Ensure SimpleITK and SciPy are available in the Python environment used by ROS
+    - If you need interactive console input, use use_xterm:=true
+  -->
+
+  <arg name="param_file" default="$(find us_planner)/config/us_pose_planner_confidence.yaml"/>
+
+  <arg name="use_xterm" default="false"/>
+
+  <group ns="iiwa">
+    <node pkg="us_planner"
+          type="us_pose_planner_confidence.py"
+          name="us_pose_planner_confidence"
+          output="screen"
+          unless="$(arg use_xterm)">
+      <rosparam command="load" file="$(arg param_file)" />
+    </node>
+
+    <node pkg="us_planner"
+          type="us_pose_planner_confidence.py"
+          name="us_pose_planner_confidence"
+          output="screen"
+          if="$(arg use_xterm)"
+          launch-prefix="xterm -e">
+      <rosparam command="load" file="$(arg param_file)" />
+    </node>
+  </group>
+</launch>
