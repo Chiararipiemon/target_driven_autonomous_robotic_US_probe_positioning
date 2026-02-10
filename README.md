@@ -14,12 +14,12 @@ to avoid excessive penetration. If the resulting pose quality is not satisfactor
 ## Repo overview
 Inside **/simulation_setup** there are all the scripts and the README.md to run the simulation: all the inputs you need and all the outputs you should obtain by following the intructions
 
-Inside **/US_segmentation** you find all the custom scripts and priors to run the network for US automatic spine segmentation based on https://github.com/luohwu/UltraBones100k
+Inside **/US_segmentation** you find all the custom scripts, the README.md and priors to run the network for US automatic spine segmentation based on https://github.com/luohwu/UltraBones100k
 
-Inside **/confidence_map** you find all the custom scripts for running the confidence map computation based on https://github.com/Project-MONAI/MONAI
+Inside **/confidence_map** you find all the custom scripts and README.md for running the confidence map computation based on https://github.com/Project-MONAI/MONAI
 
-Inside **/probe_pose_planner** there are all the custom scripts for running the probe US pose optimization problem 
+Inside **/probe_pose_planner** there are all the custom scripts for running the probe US pose optimization problem and the detailed README.md
 
-Inside **/validation there** there is a README.md where you can find all the instructions to run and execute the entire pipeline and test everything
+Inside **/validation** there is a README.md where you can find all the instructions to run and execute the entire pipeline and test everything
 
 <img width="826" height="668" alt="immagine" src="https://github.com/user-attachments/assets/c010f191-5f27-4b0f-be2a-8a22e01ecc69" />
