@@ -50,6 +50,9 @@ x_mm,y_mm,z_mm,qx,qy,qz,qw
 10.465045,-40.403463,-158.472498,0.479116757,0.437854871,-0.555232485,0.520045319
 
 ## Start planner
+The USPosePlannerConfidence is a local pose planner that proposes a probe pose near the current apex point by optimizing visibility in an ultrasound confidence volume.
+
+It samples candidate contact points on the skin around the apex, builds candidate probe orientations by blending the local skin normal with the direction to the target, and optionally samples multiple yaw angles to allow different view directions (e.g., sagittal vs transverse-like). Each candidate is filtered by “sonographer-safe” hard constraints (limited shift and limited angular change), then scored using confidence-based costs (low confidence along the beam path and around the target), plus soft penalties for excessive motion, misalignment, and out-of-plane target distance. The best-scoring candidate is published as a PoseStamped on /us_best_pose, and the node can optionally show alternatives and ask the user to accept/reject them in a console-driven mode
 ```
 roslaunch us_planner us_pose_planner_confidence.launch
 ```
