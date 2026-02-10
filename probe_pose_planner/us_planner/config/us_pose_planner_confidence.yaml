@@ -1,0 +1,69 @@
+# USPosePlannerConfidence parameters (private namespace of the node).
+# What you must change to test this pipeline with your own setup:
+# - cloud_topic: PointCloud2 topic containing the skin surface (frame must match your TF/world)
+# - target_topic: PointStamped topic for the target in world coordinates
+# - apex_pose_topic: PoseStamped providing the apex pose (x-axis is used as a yaw hint)
+# - conf_mha_path: path to the confidence volume (.mha)
+# - conf_volume_frame and T_imfusion_from_world_mm: must match your volume physical coordinates
+# - output topics: best_pose_topic and candidates_markers_topic (absolute vs relative names matter)
+
+target_topic: /us_target_viz
+apex_pose_topic: /us_apex_pose
+cloud_topic: /skin_cloud
+best_pose_topic: /us_best_pose
+
+interactive_mode: console
+max_user_options: 5
+
+patch_radius_m: 0.030
+n_apex_samples: 35
+
+shift_max_mm: 35.0
+alpha_max_deg: 20.0
+delta_theta_max_deg: 18.0
+
+theta_align_max_deg: 15.0
+theta_align_deg: 12.0
+theta_fov_half_deg: 15.0
+
+beta_to_target: 0.75
+tilt_jitter_deg: 10.0
+n_dir_samples: 15
+
+n_yaw_samples: 4
+use_yaw_list: true
+yaw_deg_list: [0.0, 45.0, 90.0, 135.0]
+
+conf_mha_path: /home/chiararipiemo/iiwa_stack_ws/src/us_planner/volume_confidence.mha
+conf_query_mode: trilinear
+conf_outside_value: 0.0
+conf_volume_frame: imfusion
+use_confidence: true
+
+T_imfusion_from_world_mm:
+  - [1.0, 0.0, 0.0, -642.0]
+  - [0.0, 0.0, 1.0, -364.0]
+  - [0.0, -1.0, 0.0, -200.0]
+  - [0.0, 0.0, 0.0, 1.0]
+
+ray_step_mm: 2.0
+conf_agg: mean
+conf_p_quantile: 0.98
+
+conf_target_radius_mm: 8.0
+conf_target_samples: 20
+
+w_ray: 1.0
+w_tgt: 0.5
+w_align: 1.2
+w_fov: 0.2
+w_tilt: 0.15
+w_move: 0.05
+w_coll: 0.0
+
+y_plane_max_mm: 6.0
+w_outplane: 0.6
+outplane_hard: false
+
+publish_candidates_markers: true
+candidates_markers_topic: /us_pose_candidates
