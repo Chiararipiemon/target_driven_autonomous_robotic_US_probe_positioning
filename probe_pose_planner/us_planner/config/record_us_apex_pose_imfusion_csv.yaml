@@ -1,0 +1,12 @@
+# RecordUsApexPoseImFusionCsv parameters (private namespace of the node).
+# What you must change to test with your own setup:
+# - topic: PoseStamped topic you want to record (absolute vs relative name matters)
+# - base_frame: frame you want poses expressed in (must be available in TF)
+# - output_csv: output file path
+# - max_samples: set to 0 for unlimited logging
+
+topic: /us_apex_pose
+base_frame: world
+output_csv: /home/chiararipiemo/validation/us_apex_pose_imfusion.csv
+flush_every: 1
+max_samples: 2000
