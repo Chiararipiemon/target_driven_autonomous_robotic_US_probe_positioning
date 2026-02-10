@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<launch>
+  <!--
+    Launch: record_us_best_pose_imfusion_csv (fixed namespace: iiwa)
+
+    What you must change to test with your own setup:
+    - param_file: YAML with topic, base_frame, output_csv, max_samples
+    - The input topic must publish geometry_msgs/PoseStamped
+    - TF must be able to transform msg.header.frame_id -> base_frame
+    - Update the robot->ImFusion calibration matrix inside the script if your setup differs
+  -->
+
+  <arg name="param_file" default="$(find us_planner)/config/record_us_best_pose_imfusion_csv.yaml"/>
+
+  <!-- Optional quick overrides -->
+  <arg name="topic" default="/us_best_pose"/>
+  <arg name="base_frame" default="world"/>
+  <arg name="output_csv" default="/home/chiararipiemo/validation/us_best_pose_imfusion.csv"/>
+  <arg name="flush_every" default="1"/>
+  <arg name="max_samples" default="0"/>
+
+  <group ns="iiwa">
+    <node pkg="us_planner"
+          type="record_us_best_pose_imfusion_csv.py"
+          name="record_us_best_pose_imfusion_csv"
+          output="screen">
+
+      <rosparam command="load" file="$(arg param_file)" />
+
+      <param name="topic" value="$(arg topic)"/>
+      <param name="base_frame" value="$(arg base_frame)"/>
+      <param name="output_csv" value="$(arg output_csv)"/>
+      <param name="flush_every" value="$(arg flush_every)"/>
+      <param name="max_samples" value="$(arg max_samples)"/>
+
+    </node>
+  </group>
+</launch>
