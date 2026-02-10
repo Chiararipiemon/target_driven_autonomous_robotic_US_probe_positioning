@@ -60,4 +60,7 @@ roslaunch us_planner us_pose_planner_confidence.launch
 ```
 roslaunch us_planner go_to_us_best_pose.launch
 ```
-
+## Record probe pose onto us_best_pose
+```
+roslaunch us_planner record_us_best_pose_imfusion_csv.launch
+```
