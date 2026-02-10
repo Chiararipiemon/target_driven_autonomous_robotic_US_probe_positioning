@@ -50,4 +50,6 @@ x_mm,y_mm,z_mm,qx,qy,qz,qw
 10.465045,-40.403463,-158.472498,0.479116757,0.437854871,-0.555232485,0.520045319
 
 ## Start planner
-
+```
+roslaunch us_planner us_pose_planner_confidence.launch
+```
