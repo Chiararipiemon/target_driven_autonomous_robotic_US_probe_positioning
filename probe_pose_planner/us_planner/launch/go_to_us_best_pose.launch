@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<launch>
+  <!--
+    Launch: go_to_us_best_pose (fixed namespace: iiwa)
+
+    What you must change to test this pipeline with your own setup:
+    - param_file: YAML containing MoveIt group/link, joint configs, frames and approach parameters
+    - Ensure MoveIt move_group is running under the iiwa namespace (iiwa/robot_description available)
+    - Ensure TF provides ee_link -> tip_frame
+    - Ensure /us_best_pose publishes geometry_msgs/PoseStamped
+  -->
+
+  <arg name="param_file" default="$(find us_planner)/config/go_to_us_best_pose.yaml"/>
+
+  <!-- Optional quick overrides -->
+  <arg name="best_pose_topic" default="/us_best_pose"/>
+  <arg name="best_pose_timeout" default="10.0"/>
+  <arg name="contact_margin" default="0.006"/>
+  <arg name="approach_dist" default="0.03"/>
+  <arg name="two_stage" default="true"/>
+
+  <group ns="iiwa">
+    <node pkg="us_planner"
+          type="go_to_us_best_pose.py"
+          name="go_to_us_best_pose"
+          output="screen">
+
+      <rosparam command="load" file="$(arg param_file)" />
+
+      <param name="best_pose_topic" value="$(arg best_pose_topic)"/>
+      <param name="best_pose_timeout" value="$(arg best_pose_timeout)"/>
+      <param name="contact_margin" value="$(arg contact_margin)"/>
+      <param name="approach_dist" value="$(arg approach_dist)"/>
+      <param name="two_stage" value="$(arg two_stage)"/>
+
+    </node>
+  </group>
+</launch>
