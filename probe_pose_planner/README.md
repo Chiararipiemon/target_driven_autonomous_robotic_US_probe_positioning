@@ -43,3 +43,8 @@ roslaunch us_planner go_to_us_apex.launch
 ```
 roslaunch us_planner record_us_apex_pose_imfusion_csv.launch
 ```
+The output is something like this:
+
+x_mm,y_mm,z_mm,qx,qy,qz,qw
+
+10.465045,-40.403463,-158.472498,0.479116757,0.437854871,-0.555232485,0.520045319
