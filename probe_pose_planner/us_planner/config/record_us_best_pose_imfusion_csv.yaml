@@ -1,0 +1,13 @@
+# RecordUsBestPoseImFusionCsv parameters 
+# What you must change to test with your own setup:
+# - topic: PoseStamped topic to record (absolute vs relative name matters)
+# - base_frame: frame you want poses expressed in (must be available in TF)
+# - output_csv: output CSV path
+# - max_samples: set to 0 for unlimited recording
+# - The robot->ImFusion calibration matrix inside the script must match your setup
+
+topic: /us_best_pose
+base_frame: world
+output_csv: /home/chiararipiemo/validation/us_best_pose_imfusion.csv
+flush_every: 1
+max_samples: 0
