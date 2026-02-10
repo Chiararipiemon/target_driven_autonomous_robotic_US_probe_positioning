@@ -1,0 +1,34 @@
+# GoToUsApex parameters (private namespace of the node).
+# What you must change to test with your own setup:
+# - group_name: your MoveIt planning group name
+# - ee_link: the MoveIt end-effector link used for planning
+# - ref_frame: the reference frame for planning goals (e.g., world)
+# - tip_frame: the TF frame of your tool tip (must exist in TF)
+# - apex_pose_topic: the topic publishing PoseStamped for the apex
+# - pre_joints / target_joints: your robot joint configurations
+
+group_name: manipulator
+ee_link: iiwa_link_ee
+ref_frame: world
+speed_scale: 0.2
+
+pre_joints: [-2.529, 0.271, -0.268, 1.141, 2.932, 1.581, 0.174]
+target_joints: [-0.176, 0.675, 0.008, -0.789, -0.004, 1.669, -0.169]
+
+apex_pose_topic: /us_apex_pose
+apex_timeout: 10.0
+
+tip_frame: probe_tip
+contact_margin: 0.0
+
+planning_time: 15.0
+planning_attempts: 20
+pos_tol: 0.001
+ori_tol_deg: 2.0
+
+max_refine: 3
+tip_pos_threshold_mm: 1.0
+tip_ori_threshold_deg: 0.5
+
+use_tip_based_ori_tol: true
+desired_tip_mm: 1.0
