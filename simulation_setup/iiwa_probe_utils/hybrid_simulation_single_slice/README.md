@@ -6,6 +6,6 @@ A key requirement of the simulation environment was to reproduce the behavior of
 ```
 exec(open("YOOUR_PATH/iiwa_probe_utils/hybrd_simulation_single_slice/get_sweep_from_csv_quaternion.py", encoding="utf-8").read()); main()
 ```
-4.run the hybrid simulation
+4. run the hybrid simulation
 
 <img width="572" height="750" alt="hybridflow" src="https://github.com/user-attachments/assets/9249d2be-c410-4f11-a98c-0e01bfef85a2" />
