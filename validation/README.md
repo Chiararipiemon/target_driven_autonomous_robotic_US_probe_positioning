@@ -1,10 +1,13 @@
 # Setup
 Follow this workflow just the first time.
-To test the pipeline with synth data you need to segment from a Ct scan the anatomies of interest. Fors example:
+To test the pipeline with synth data you need to segment from a Ct scan the anatomies of interest. For example you may need to segment:
 - Spine
 - kindey
 - fat
-  
+Just use 3DSclicer.
+N.B. Please pay attention to select the exact label number Imfusion wants to get the Hybrid Simulation:
+<img width="1529" height="968" alt="image" src="https://github.com/user-attachments/assets/b52016c8-d041-4b59-b110-5042adbcc239" />
+
 You need also to exract the skin surface and convert it in cloudpoint (pay attention, Rviz! supports few points, around 8000 it's fine)
 
 ## Spawning of manipulator + bed + robot pedestal + attach the probe with probe holder
