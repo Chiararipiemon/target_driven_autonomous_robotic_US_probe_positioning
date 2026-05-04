@@ -8,7 +8,7 @@ import numpy as np
 import imfusion as imf
 import imfusion.ultrasound as us
 
-
+# Using this code you can get a fake ultrasound frame (linear geometry) from an and effector pose (recorded in x, y, z, qx, qy, qz)
 # Configuration values used by this script.
 # The CSV is expected to contain one pose per row in the ImFusion world frame:
 # x, y, z, qx, qy, qz, qw (positions in mm, quaternion in x/y/z/w).
