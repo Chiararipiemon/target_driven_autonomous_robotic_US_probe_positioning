@@ -4,6 +4,7 @@ To test the pipeline with synth data you need to segment from a Ct scan the anat
 - Spine
 - kindey
 - fat
+- soft tissues
 
 Just use 3DSclicer.
 N.B. Please pay attention to select the exact label number Imfusion wants to get the Hybrid Simulation:
