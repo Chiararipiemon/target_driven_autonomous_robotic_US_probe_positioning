@@ -4,6 +4,7 @@ To test the pipeline with synth data you need to segment from a Ct scan the anat
 - Spine
 - kindey
 - fat
+  
 You need also to exract the skin surface and convert it in cloudpoint (pay attention, Rviz! supports few points, around 8000 it's fine)
 
 ## Spawning of manipulator + bed + robot pedestal + attach the probe with probe holder
